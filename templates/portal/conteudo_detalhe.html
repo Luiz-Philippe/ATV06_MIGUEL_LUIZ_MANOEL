@@ -1,0 +1,7 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}{{ conteudo.titulo }} - Portal Acadêmico{% endblock %}
+
+{% block content %}
+    {{ conteudo.conteudo_html|safe }}
+{% endblock %}

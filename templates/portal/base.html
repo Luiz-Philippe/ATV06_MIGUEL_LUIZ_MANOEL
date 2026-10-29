@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'img/icon.png' %}" type="image/x-icon">
+    <title>{% block title %}Portal Acadêmico do Trio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <noscript>
+        <p>Aviso: O JavaScript está desabilitado. O portal funciona normalmente com Django.</p>
+    </noscript>
+
+    <header>
+        <h1>Portal Acadêmico do Trio</h1>
+    </header>
+
+    <main class="container-principal">
+        <nav>
+            <h1 class="titulo-menu">Navegação</h1>
+            
+            <!-- MENU DINÂMICO DO DJANGO -->
+            <ul class="menu-django">
+                {% for item in menu_itens %}
+                    <li>
+                        {% if item.tipo_destino == 'INTERNO' and item.conteudo %}
+                            <button class="botao-nav" onclick="window.location.href='{% url 'conteudo_detalhe' item.conteudo.slug %}'">
+                                {{ item.titulo }}
+                            </button>
+                        {% elif item.tipo_destino == 'EXTERNO' and item.url_externa %}
+                            <button class="botao-nav" onclick="window.open('{{ item.url_externa }}', '_blank')">
+                                {{ item.titulo }}
+                            </button>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li><button class="botao-nav">Nenhum item no menu (Cadastre no Admin)</button></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <section id="conteudo">
+            <!-- AQUI É ONDE O HOME.HTML E CONTEUDO_DETALHE.HTML VÃO APARECER -->
+            {% block content %}
+            {% endblock %}
+        </section>
+    </main>
+
+    <footer>
+        <p>Atividade 9 - Migração para Django (Baseado no Layout da ATV06)</p>
+    </footer>
+
+    <script>
+        // Se você tinha algum script de menu mobile na ATV06, cole aqui
+    </script>
+</body>
+</html>
